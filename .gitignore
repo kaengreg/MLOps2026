@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+**/__pycache__/
+
+# macOS metadata
+__MACOSX/
+.DS_Store
+
+# Specific files
+nyc-yellow-taxi-trip-data.zip
+testing.ipynb
+catboost_info
+
+
+data/source/yellow_tripdata_2015-01.csv
+data/source/yellow_tripdata_2016-01.csv
+data/source/yellow_tripdata_2016-02.csv
+data/source/yellow_tripdata_2016-03.csv
+data/raw_batches/batch_0001_2015-01-01_2015-01-04.csv
+data/raw_batches/batch_0001_2016-01-01_2016-01-03.csv
+data/raw_batches/batch_0002_2015-01-05_2015-01-11.csv
+data/raw_batches/batch_0003_2015-01-12_2015-01-18.csv
+data/raw_batches/batch_0004_2015-01-19_2015-01-25.csv
+data/raw_batches/batch_0005_2015-01-26_2015-01-31.csv
+data/external/batch_0002_2016-01-04_2016-01-10.csv
+data/external/batch_0003_2016-01-11_2016-01-17.csv
+data/external/batch_0004_2016-01-18_2016-01-24.csv
+data/external/batch_0005_2016-01-25_2016-01-31.csv
+dev/predictions/predictions_20260323_231350.csv
+dev/models
