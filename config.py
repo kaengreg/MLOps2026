@@ -19,7 +19,7 @@ PREDICTIONS_DIR = DEV_DIR/"predictions"
 
 STATE_DIR = BASE_DIR/"state"
 
-SOURCE_FILE = SOURCE_DIR/"yellow_tripdata_2016-01.csv"
+SOURCE_FILE = SOURCE_DIR/"yellow_tripdata_2015-01.csv"
 PIPELINE_STATE_FILE = STATE_DIR/"pipeline_state.json"
 
 TARGET_COL = "total_amount"
