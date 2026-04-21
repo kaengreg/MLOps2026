@@ -44,35 +44,6 @@ jobs:
           echo "External batches:"
           ls -lah data/external || true
 
-      - name: Debug first batch files
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import pandas as pd
-
-          paths = sorted(Path("data/raw_batches").glob("batch_*.csv"))[:3]
-          print("Selected files for debug:")
-          for p in paths:
-              print("-", p)
-
-          print("\n--- FILE CONTENT PREVIEW ---")
-          for p in paths:
-              print(f"\n### {p.name}")
-              print("exists:", p.exists())
-              print("size:", p.stat().st_size if p.exists() else None)
-
-              with open(p, "r", encoding="utf-8", errors="replace") as f:
-                  for i in range(3):
-                      line = f.readline()
-                      print(f"line_{i+1}: {line!r}")
-
-              try:
-                  df = pd.read_csv(p, nrows=3)
-                  print("columns:", df.columns.tolist())
-              except Exception as e:
-                  print("read_csv error:", repr(e))
-          PY
-
       - name: Make scenario script executable
         run: chmod +x scripts/run_basic.sh
 
