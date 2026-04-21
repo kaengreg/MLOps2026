@@ -1,0 +1,77 @@
+{
+  "model_name": "DecisionTreeRegressor",
+  "model_type": "sklearn_pipeline_tree",
+  "feature_columns": [
+    "VendorID",
+    "passenger_count",
+    "trip_distance",
+    "pickup_longitude",
+    "pickup_latitude",
+    "RatecodeID",
+    "store_and_fwd_flag",
+    "dropoff_longitude",
+    "dropoff_latitude",
+    "pickup_hour",
+    "pickup_weekday",
+    "pickup_month",
+    "trip_duration_min"
+  ],
+  "categorical_features": [
+    "VendorID",
+    "RatecodeID",
+    "store_and_fwd_flag"
+  ],
+  "numerical_features": [
+    "passenger_count",
+    "trip_distance",
+    "pickup_longitude",
+    "pickup_latitude",
+    "dropoff_longitude",
+    "dropoff_latitude",
+    "pickup_hour",
+    "pickup_weekday",
+    "pickup_month",
+    "trip_duration_min"
+  ],
+  "preprocessing": "sklearn_pipeline_ohe",
+  "params": {
+    "max_depth": 16,
+    "min_samples_split": 10,
+    "min_samples_leaf": 10,
+    "random_state": 42
+  },
+  "val_metrics": {
+    "mae": 1.3463815169242377,
+    "rmse": 2.0312142713745,
+    "r2": 0.9612957461112864
+  },
+  "selection_strategy": "mini_grid_search",
+  "train_rows": 11170788,
+  "test_rows": 2116911,
+  "train_batches": 5,
+  "test_batch": "batch_0005_2015-01-26_2015-01-31.csv",
+  "model_key": "decision_tree",
+  "metrics": {
+    "val_mae": 1.3463815169242377,
+    "val_rmse": 2.0312142713745,
+    "val_r2": 0.9612957461112864,
+    "test_mae": 1.181986891142075,
+    "test_rmse": 1.749926463138505,
+    "test_r2": 0.9530777052966473
+  },
+  "version": "20260323_220330",
+  "saved_at": "2026-03-23T22:03:30.330266",
+  "versioned_model_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/decision_tree_20260323_220330.pkl",
+  "versioned_meta_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/decision_tree_20260323_220330_meta.json",
+  "current_model_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/current_decision_tree.pkl",
+  "current_meta_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/current_decision_tree_meta.json",
+  "is_best": false,
+  "updated_at": "2026-03-23T22:03:30.308462",
+  "update_strategy": "tree_full_retrain",
+  "last_incremental_batch_rows": 2116911,
+  "last_incremental_batch_metrics": {
+    "mae": 1.181986891142075,
+    "rmse": 1.749926463138505,
+    "r2": 0.9530777052966473
+  }
+}

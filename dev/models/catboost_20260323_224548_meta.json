@@ -1,0 +1,80 @@
+{
+  "model_name": "CatBoostRegressor",
+  "model_type": "catboost",
+  "feature_columns": [
+    "VendorID",
+    "passenger_count",
+    "trip_distance",
+    "pickup_longitude",
+    "pickup_latitude",
+    "RatecodeID",
+    "store_and_fwd_flag",
+    "dropoff_longitude",
+    "dropoff_latitude",
+    "pickup_hour",
+    "pickup_weekday",
+    "pickup_month",
+    "trip_duration_min"
+  ],
+  "categorical_features": [
+    "VendorID",
+    "RatecodeID",
+    "store_and_fwd_flag"
+  ],
+  "numerical_features": [
+    "passenger_count",
+    "trip_distance",
+    "pickup_longitude",
+    "pickup_latitude",
+    "dropoff_longitude",
+    "dropoff_latitude",
+    "pickup_hour",
+    "pickup_weekday",
+    "pickup_month",
+    "trip_duration_min"
+  ],
+  "preprocessing": "native_catboost",
+  "params": {
+    "iterations": 300,
+    "depth": 6,
+    "learning_rate": 0.1,
+    "loss_function": "RMSE",
+    "eval_metric": "RMSE",
+    "random_seed": 42,
+    "verbose": false
+  },
+  "val_metrics": {
+    "mae": 1.3416905176711935,
+    "rmse": 2.024962188696533,
+    "r2": 0.9615336430065582
+  },
+  "selection_strategy": "mini_grid_search",
+  "train_rows": 10239739,
+  "test_rows": 2116911,
+  "train_batches": 4,
+  "test_batch": "batch_0005_2015-01-26_2015-01-31.csv",
+  "model_key": "catboost",
+  "metrics": {
+    "val_mae": 1.3416905176711935,
+    "val_rmse": 2.024962188696533,
+    "val_r2": 0.9615336430065582,
+    "test_mae": 1.167740634649533,
+    "test_rmse": 1.704772868409165,
+    "test_r2": 0.95546794927041
+  },
+  "version": "20260323_224548",
+  "saved_at": "2026-03-23T22:45:48.684742",
+  "versioned_model_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/catboost_20260323_224548.pkl",
+  "versioned_meta_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/catboost_20260323_224548_meta.json",
+  "current_model_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/current_catboost.pkl",
+  "current_meta_path": "/Users/kaengreg/Documents/Учеба/Магистратура/1 курс/Весна/MLOps/dev/models/current_catboost_meta.json",
+  "is_best": false,
+  "updated_at": "2026-03-23T22:45:48.652038",
+  "update_strategy": "catboost_continue_fit",
+  "last_incremental_batch_rows": 2116911,
+  "last_incremental_batch_metrics": {
+    "mae": 1.1398073783634581,
+    "rmse": 1.622376255306706,
+    "r2": 0.9596686454542277
+  }
+}
