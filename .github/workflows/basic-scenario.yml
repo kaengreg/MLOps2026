@@ -67,4 +67,3 @@ jobs:
             dev/metrics/training_log.csv
             dev/models/best_model.pkl
             dev/models/best_model_meta.json
-          if-no-files-found: warn
