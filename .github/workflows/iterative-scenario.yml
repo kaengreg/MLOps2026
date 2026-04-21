@@ -1,0 +1,75 @@
+name: Iterative ML Training Scenario
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  train-iterative-model:
+    runs-on: ubuntu-latest
+
+    env:
+      N_ITERATIONS: 3
+      INITIAL_BATCHES: 2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install Git LFS
+        run: |
+          git lfs install
+          git lfs pull
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Show repository structure
+        run: |
+          echo "Working directory: $(pwd)"
+          echo
+          echo "Raw batches:"
+          ls -lah data/raw_batches || true
+          echo
+          echo "External batches:"
+          ls -lah data/external || true
+
+      - name: Make iterative scenario script executable
+        run: chmod +x scripts/run_iterative.sh
+
+      - name: Run iterative training scenario
+        run: bash scripts/run_iterative.sh
+
+      - name: Upload text log artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: iterative-scenario-log
+          path: artifacts/iterative_scenario.log
+          if-no-files-found: warn
+
+      - name: Upload training artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: iterative-training-artifacts
+          path: |
+            dev/metrics/training_log.csv
+            dev/metrics/update_log.csv
+            dev/models/best_model.pkl
+            dev/models/best_model_meta.json
+            state/pipeline_state.json
+          if-no-files-found: warn

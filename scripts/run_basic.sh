@@ -23,7 +23,7 @@ LOG_FILE="artifacts/basic_scenario.log"
   echo
 
   echo "Starting model training on first 2 raw batches..."
-  python run.py --mode train --max-batches 2
+  python -u run.py --mode train --max-batches 2
   echo
 
   echo "=== Basic CI scenario finished successfully ==="
