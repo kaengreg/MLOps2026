@@ -508,9 +508,21 @@ def run_single_model_training(model_key, trainer, X_train, X_test, y_train, y_te
     return result
 
 
-def train_models(batch_files=None, selected_models=None, save_as_best=True, update_state=True):
+def train_models(batch_files=None, selected_models=None, save_as_best=True, update_state=True, max_batches=None):
     if batch_files is None:
         batch_files = list_batch_files()
+
+    if max_batches is not None:
+        if not isinstance(max_batches, int):
+            raise TypeError("max_batches must be an integer or None.")
+        if max_batches < 2:
+            raise ValueError("max_batches must be at least 2 because training requires train/test split by batches.")
+        batch_files = batch_files[:max_batches]
+
+    if len(batch_files) < 2:
+        raise ValueError(
+            "At least 2 batch files are required for training because the last batch is used as test split."
+        )
 
     model_registry = build_model_registry()
 
@@ -522,6 +534,7 @@ def train_models(batch_files=None, selected_models=None, save_as_best=True, upda
         raise ValueError(f"Unknown model names requested for training: {unknown_models}")
 
     print(f"Models selected for training: {selected_models}")
+    print(f"Batch files selected for training: {[batch_path.name for batch_path in batch_files]}")
 
     train_df, test_df = load_batch_splits(batch_files=batch_files)
 
@@ -564,10 +577,12 @@ def train_models(batch_files=None, selected_models=None, save_as_best=True, upda
 
     if update_state:
         state = load_pipeline_state()
+        previous_processed_batches = int(state.get("last_processed_batch", 0))
         state["initialized"] = True
-        state["last_processed_batch"] = len(batch_files)
+        state["last_processed_batch"] = max(previous_processed_batches, len(batch_files))
         state["last_train_at"] = datetime.now().isoformat()
         state["last_train_batch_name"] = batch_files[-1].name
+        state["last_train_batch_count"] = len(batch_files)
         save_pipeline_state(state)
         print("Pipeline state saved.")
 
@@ -578,6 +593,7 @@ def train_models(batch_files=None, selected_models=None, save_as_best=True, upda
         "test_rmse": best_result["test_rmse"],
         "test_r2": best_result["test_r2"],
         "trained_models": selected_models,
+        "trained_batch_count": len(batch_files),
     }
 
     if saved_best is not None:

@@ -17,11 +17,15 @@ def main():
         choices=["prepare_data", "raw_batches_stats", "train", "inference", "summary", "update"],
     )
     parser.add_argument("--file", type=str)
+    parser.add_argument("--max-batches", type=int, default=None, help="Maximum number of raw batch files to use for training (must be at least 2).",)
 
     args = parser.parse_args()
 
     if args.mode == "inference" and not args.file:
         parser.error("--file is required when --mode inference")
+
+    if args.max_batches is not None and args.mode != "train":
+        parser.error("--max-batches can only be used when --mode train")
 
     if args.mode == "prepare_data":
         saved_paths = prepare_raw_batches()
@@ -57,11 +61,12 @@ def main():
 
 
     if args.mode == "train":
-        result = train_models()
+        result = train_models(max_batches=args.max_batches)
 
         print("Training finished.")
         print(f"Best model: {result['best_model_name']}")
         print(f"Best model key: {result['best_model_key']}")
+        print(f"Trained batch count: {result['trained_batch_count']}")
         print(f"Test MAE:        {result['test_mae']:.4f}")
         print(f"Test RMSE:       {result['test_rmse']:.4f}")
         print(f"Test R2:         {result['test_r2']:.4f}")
