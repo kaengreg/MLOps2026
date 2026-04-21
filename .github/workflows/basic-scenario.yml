@@ -15,6 +15,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install Git LFS
+        run: |
+          git lfs install
+          git lfs pull
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -26,6 +33,45 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Show repository structure
+        run: |
+          echo "Working directory: $(pwd)"
+          echo
+          echo "Raw batches:"
+          ls -lah data/raw_batches || true
+          echo
+          echo "External batches:"
+          ls -lah data/external || true
+
+      - name: Debug first batch files
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import pandas as pd
+
+          paths = sorted(Path("data/raw_batches").glob("batch_*.csv"))[:3]
+          print("Selected files for debug:")
+          for p in paths:
+              print("-", p)
+
+          print("\n--- FILE CONTENT PREVIEW ---")
+          for p in paths:
+              print(f"\n### {p.name}")
+              print("exists:", p.exists())
+              print("size:", p.stat().st_size if p.exists() else None)
+
+              with open(p, "r", encoding="utf-8", errors="replace") as f:
+                  for i in range(3):
+                      line = f.readline()
+                      print(f"line_{i+1}: {line!r}")
+
+              try:
+                  df = pd.read_csv(p, nrows=3)
+                  print("columns:", df.columns.tolist())
+              except Exception as e:
+                  print("read_csv error:", repr(e))
+          PY
 
       - name: Make scenario script executable
         run: chmod +x scripts/run_basic.sh
@@ -39,6 +85,7 @@ jobs:
         with:
           name: basic-scenario-log
           path: artifacts/basic_scenario.log
+          if-no-files-found: warn
 
       - name: Upload training artifacts
         uses: actions/upload-artifact@v4
@@ -49,3 +96,4 @@ jobs:
             dev/metrics/training_log.csv
             dev/models/best_model.pkl
             dev/models/best_model_meta.json
+          if-no-files-found: warn
