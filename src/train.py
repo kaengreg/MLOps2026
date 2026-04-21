@@ -1,5 +1,5 @@
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, date
 import json
 import pickle
 import shutil
@@ -37,9 +37,25 @@ CATEGORICAL_FEATURES = ["VendorID", "RatecodeID", "store_and_fwd_flag"]
 NUMERICAL_FEATURES = [col for col in FEATURE_COLUMNS if col not in CATEGORICAL_FEATURES]
 
 
+def parse_batch_date_range(batch_path):
+    stem_parts = batch_path.stem.split("_")
+
+    if len(stem_parts) >= 4:
+        try:
+            start_date = datetime.strptime(stem_parts[-2], "%Y-%m-%d").date()
+            end_date = datetime.strptime(stem_parts[-1], "%Y-%m-%d").date()
+            return start_date, end_date, batch_path.name
+        except ValueError:
+            pass
+
+    return date.max, date.max, batch_path.name
+
+
 def load_batch_splits(batch_files):
     if batch_files is None:
         batch_files = list_batch_files()
+
+    batch_files = sorted(batch_files, key=parse_batch_date_range)
 
     if len(batch_files) < 2:
         raise ValueError(
@@ -511,6 +527,8 @@ def run_single_model_training(model_key, trainer, X_train, X_test, y_train, y_te
 def train_models(batch_files=None, selected_models=None, save_as_best=True, update_state=True, max_batches=None):
     if batch_files is None:
         batch_files = list_batch_files()
+
+    batch_files = sorted(batch_files, key=parse_batch_date_range)
 
     if max_batches is not None:
         if not isinstance(max_batches, int):
