@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mkdir -p artifacts
+mkdir -p artifacts \
+  state \
+  dev/models \
+  dev/metrics \
+  dev/reports \
+  dev/predictions
 
 LOG_FILE="artifacts/iterative_scenario.log"
 
-N_ITERATIONS="${N_ITERATIONS:-3}"
+N_ITERATIONS="${N_ITERATIONS:-2}"
 INITIAL_BATCHES="${INITIAL_BATCHES:-2}"
 
 {
@@ -30,19 +35,28 @@ INITIAL_BATCHES="${INITIAL_BATCHES:-2}"
   echo
 
   if ! [[ "$N_ITERATIONS" =~ ^[0-9]+$ ]]; then
-    echo "[ERROR]: N_ITERATIONS must be a non-negative integer"
+    echo "ERROR: N_ITERATIONS must be a non-negative integer"
     exit 1
   fi
 
   if ! [[ "$INITIAL_BATCHES" =~ ^[0-9]+$ ]]; then
-    echo "[ERROR]: INITIAL_BATCHES must be a positive integer"
+    echo "ERROR: INITIAL_BATCHES must be a positive integer"
     exit 1
   fi
 
   if [ "$INITIAL_BATCHES" -lt 2 ]; then
-    echo "[ERROR]: INITIAL_BATCHES must be at least 2"
+    echo "ERROR: INITIAL_BATCHES must be at least 2"
     exit 1
   fi
+
+  echo "Resetting state and old artifacts for a clean CI run..."
+  rm -f state/pipeline_state.json
+  rm -f dev/models/*
+  rm -f dev/metrics/*
+  rm -f dev/reports/*
+  rm -f dev/predictions/*
+  echo "State reset completed."
+  echo
 
   echo "----------------------------------------"
   echo "Initial training"
