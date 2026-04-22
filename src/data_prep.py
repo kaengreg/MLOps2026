@@ -1,9 +1,13 @@
-from pathlib import Path 
-import pandas as pd 
+from pathlib import Path
+from datetime import datetime
 
-from config import SOURCE_FILE, RAW_BATCHES_DIR, REQUIRED_COLUMNS, PICKUP_COL, DROPOFF_COL, BATCH_FREQ, MIN_ROWS_IN_BATCH
+import pandas as pd
 
-def normalize_column_names(df: pd.DataFrame) -> pd.DataFrame:
+from config import SOURCE_FILE, RAW_BATCHES_DIR, REQUIRED_COLUMNS, PICKUP_COL, DROPOFF_COL, BATCH_FREQ, MIN_ROWS_IN_BATCH, METRICS_DIR
+
+BATCH_META_LOG_FILE = METRICS_DIR / "batch_meta_log.csv"
+
+def normalize_column_names(df):
     df = df.copy()
 
     rename_map = {"RateCodeID": "RatecodeID"}
@@ -70,10 +74,49 @@ def save_batches(batches, output_dir=RAW_BATCHES_DIR):
 
     return saved_paths
 
-def prepare_raw_batches(path=SOURCE_FILE,output_dir=RAW_BATCHES_DIR):
+
+def compute_batch_meta(batch_df, batch_path):
+    pickup_min = batch_df[PICKUP_COL].min()
+    pickup_max = batch_df[PICKUP_COL].max()
+
+    return {
+        "batch_name": batch_path.name,
+        "row_count": int(len(batch_df)),
+        "column_count": int(batch_df.shape[1]),
+        "pickup_min": pickup_min.isoformat() if pd.notna(pickup_min) else None,
+        "pickup_max": pickup_max.isoformat() if pd.notna(pickup_max) else None,
+        "missing_total": int(batch_df.isna().sum().sum()),
+        "duplicate_count": int(batch_df.duplicated().sum()),
+    }
+
+
+def append_batch_meta_log(meta_records, log_file = BATCH_META_LOG_FILE):
+    if not meta_records:
+        return
+
+    log_file.parent.mkdir(parents=True, exist_ok=True)
+    meta_df = pd.DataFrame(meta_records)
+
+    if log_file.exists():
+        existing_df = pd.read_csv(log_file)
+        result_df = pd.concat([existing_df, meta_df], ignore_index=True)
+    else:
+        result_df = meta_df
+
+    result_df.to_csv(log_file, index=False)
+
+
+def prepare_raw_batches(path=SOURCE_FILE, output_dir=RAW_BATCHES_DIR):
     df = load_source_data(path)
     batches = split_into_batches(df)
-    return save_batches(batches,output_dir)
+    saved_paths = save_batches(batches, output_dir)
+
+    meta_records = [compute_batch_meta(batch_df=batch_df, batch_path=batch_path)
+                    for batch_df, batch_path in zip(batches, saved_paths)]
+    
+    append_batch_meta_log(meta_records)
+
+    return saved_paths
 
 def list_batch_files(raw_batch_dir=RAW_BATCHES_DIR):
     if not raw_batch_dir.exists():

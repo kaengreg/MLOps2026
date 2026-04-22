@@ -1,0 +1,37 @@
+rule,support,confidence,lift,A_text,B_text
+pickup_night & trip_duration_high -> total_amount_high & trip_distance_high,0.05215870898992727,0.8871186870400651,4.245338339483215,pickup_night & trip_duration_high,total_amount_high & trip_distance_high
+pickup_weekend & total_amount_high -> trip_distance_high & trip_duration_high,0.05758652795682499,0.7364484163662692,4.052613954367763,pickup_weekend & total_amount_high,trip_distance_high & trip_duration_high
+pickup_night & trip_distance_high & trip_duration_high -> total_amount_high,0.05215870898992727,0.9641611578874121,3.978762159922725,pickup_night & trip_distance_high & trip_duration_high,total_amount_high
+pickup_night & total_amount_high -> trip_distance_high & trip_duration_high,0.05215870898992727,0.7098238344941773,3.906101110255156,pickup_night & total_amount_high,trip_distance_high & trip_duration_high
+total_amount_high -> trip_distance_high & trip_duration_high,0.17153187815033902,0.7078531845240962,3.895256788520675,total_amount_high,trip_distance_high & trip_duration_high
+trip_distance_high & trip_duration_high -> total_amount_high,0.17153187815033902,0.9439255588883548,3.8952567885206744,trip_distance_high & trip_duration_high,total_amount_high
+pickup_night & total_amount_high & trip_duration_high -> trip_distance_high,0.05215870898992727,0.9617786292393764,3.8482963126918377,pickup_night & total_amount_high & trip_duration_high,trip_distance_high
+pickup_weekend & trip_distance_high & trip_duration_high -> total_amount_high,0.05758652795682499,0.9298616075119014,3.8372196885007623,pickup_weekend & trip_distance_high & trip_duration_high,total_amount_high
+pickup_night & trip_duration_high -> total_amount_high,0.05423151170574152,0.9223730493384366,3.8063169792916023,pickup_night & trip_duration_high,total_amount_high
+pickup_night & total_amount_high -> trip_distance_high,0.0698106583708382,0.9500478476743163,3.8013587721088076,pickup_night & total_amount_high,trip_distance_high
+pickup_weekend & total_amount_high & trip_duration_high -> trip_distance_high,0.05758652795682499,0.9267229159144824,3.7080303843111446,pickup_weekend & total_amount_high & trip_duration_high,trip_distance_high
+pickup_weekend & total_amount_high -> trip_distance_high,0.07212212099545424,0.9223376313276027,3.690483857498483,pickup_weekend & total_amount_high,trip_distance_high
+pickup_night & trip_duration_high -> trip_distance_high,0.05409750077903262,0.9200937828524893,3.681505706445317,pickup_night & trip_duration_high,trip_distance_high
+pickup_weekend & trip_duration_high -> total_amount_high & trip_distance_high,0.05758652795682499,0.7691958817625799,3.681014519392937,pickup_weekend & trip_duration_high,total_amount_high & trip_distance_high
+trip_distance_high -> total_amount_high,0.20896301215607094,0.8361088141510813,3.4503340900097226,trip_distance_high,total_amount_high
+total_amount_high -> trip_distance_high,0.20896301215607094,0.8623186267032072,3.450334090009722,total_amount_high,trip_distance_high
+total_amount_high & trip_duration_high -> trip_distance_high,0.17153187815033902,0.8593333521918286,3.4383893237763563,total_amount_high & trip_duration_high,trip_distance_high
+trip_distance_high -> total_amount_high & trip_duration_high,0.17153187815033902,0.6863382842235748,3.4383893237763563,trip_distance_high,total_amount_high & trip_duration_high
+pickup_weekend & trip_duration_high -> total_amount_high,0.0621399632704659,0.8300171157454803,3.4251957416043854,pickup_weekend & trip_duration_high,total_amount_high
+pickup_night & trip_distance_high -> total_amount_high,0.0698106583708382,0.8229589993778507,3.3960693179830606,pickup_night & trip_distance_high,total_amount_high
+pickup_weekend & trip_distance_high -> total_amount_high,0.07212212099545424,0.8045746671549178,3.320203489137262,pickup_weekend & trip_distance_high,total_amount_high
+pickup_weekend & trip_duration_high -> trip_distance_high,0.06193021358405523,0.8272154431892005,3.309878222543077,pickup_weekend & trip_duration_high,trip_distance_high
+total_amount_high -> trip_duration_high,0.1996104046384645,0.8237236256670769,3.301062700019709,total_amount_high,trip_duration_high
+trip_duration_high -> total_amount_high,0.1996104046384645,0.7999363387862733,3.301062700019709,trip_duration_high,total_amount_high
+total_amount_high & trip_distance_high -> trip_duration_high,0.17153187815033902,0.8208719638010614,3.2896346987755427,total_amount_high & trip_distance_high,trip_duration_high
+trip_duration_high -> total_amount_high & trip_distance_high,0.17153187815033902,0.6874119755492665,3.2896346987755427,trip_duration_high,total_amount_high & trip_distance_high
+pickup_weekend & trip_distance_high -> total_amount_high & trip_duration_high,0.05758652795682499,0.6424195645381827,3.218367127213317,pickup_weekend & trip_distance_high,total_amount_high & trip_duration_high
+pickup_weekend & total_amount_high & trip_distance_high -> trip_duration_high,0.05758652795682499,0.7984586027420711,3.19981341907874,pickup_weekend & total_amount_high & trip_distance_high,trip_duration_high
+pickup_weekend & total_amount_high -> trip_duration_high,0.0621399632704659,0.7946802692793543,3.184671792356658,pickup_weekend & total_amount_high,trip_duration_high
+pickup_night & trip_distance_high -> total_amount_high & trip_duration_high,0.05215870898992727,0.6148699920744732,3.0803504115335536,pickup_night & trip_distance_high,total_amount_high & trip_duration_high
+pickup_night & total_amount_high & trip_distance_high -> trip_duration_high,0.05215870898992727,0.7471453529754329,2.994176176752142,pickup_night & total_amount_high & trip_distance_high,trip_duration_high
+pickup_night & total_amount_high -> trip_duration_high,0.05423151170574152,0.7380324462558939,2.9576563107154388,pickup_night & total_amount_high,trip_duration_high
+trip_duration_high -> trip_distance_high,0.18172182809876364,0.7282480796036712,2.913887160998879,trip_duration_high,trip_distance_high
+trip_distance_high -> trip_duration_high,0.18172182809876364,0.7271106050268028,2.9138871609988786,trip_distance_high,trip_duration_high
+pickup_weekend & trip_distance_high -> trip_duration_high,0.06193021358405523,0.6908765340437611,2.7686795495319614,pickup_weekend & trip_distance_high,trip_duration_high
+pickup_night & trip_distance_high -> trip_duration_high,0.05409750077903262,0.6377253294684927,2.5556767250197394,pickup_night & trip_distance_high,trip_duration_high
